@@ -1,0 +1,42 @@
+[
+  {
+    "game_id": "apex_legends",
+    "exe_name": "r5apex.exe",
+    "steam_appid": 1172470,
+    "status": "BLOCKED",
+    "max_recommended_speed": 1.0,
+    "auto_mute_audio": false,
+    "anti_cheat_detected": true,
+    "notes": "Easy Anti-Cheat protected (publicly documented) — online title, out of scope by doctrine"
+  },
+  {
+    "game_id": "rainbow_six_siege",
+    "exe_name": "RainbowSix.exe",
+    "steam_appid": 359550,
+    "status": "BLOCKED",
+    "max_recommended_speed": 1.0,
+    "auto_mute_audio": false,
+    "anti_cheat_detected": true,
+    "notes": "BattlEye protected (publicly documented) — online title, out of scope by doctrine"
+  },
+  {
+    "game_id": "pubg_battlegrounds",
+    "exe_name": "TslGame.exe",
+    "steam_appid": 578080,
+    "status": "BLOCKED",
+    "max_recommended_speed": 1.0,
+    "auto_mute_audio": false,
+    "anti_cheat_detected": true,
+    "notes": "BattlEye protected (publicly documented) — online title, out of scope by doctrine"
+  },
+  {
+    "game_id": "hunt_showdown_1896",
+    "exe_name": "HuntGame.exe",
+    "steam_appid": 594650,
+    "status": "BLOCKED",
+    "max_recommended_speed": 1.0,
+    "auto_mute_audio": false,
+    "anti_cheat_detected": true,
+    "notes": "Easy Anti-Cheat protected (publicly documented) — online title, out of scope by doctrine"
+  }
+]

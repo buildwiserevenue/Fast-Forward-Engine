@@ -1,0 +1,65 @@
+name: Compatibility Report
+about: Share how a game behaves under FastForward Engine
+title: "[Report] GameName"
+labels: report
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! Only **offline, single-player** games. Anti-cheat protected
+        titles are blocked by design — never report them as compatible.
+  - type: input
+    id: game
+    attributes:
+      label: Game name
+    validations:
+      required: true
+  - type: input
+    id: appid
+    attributes:
+      label: Steam AppID (if Steam)
+      placeholder: "e.g. 1091500"
+  - type: dropdown
+    id: store
+    attributes:
+      label: Where did you play it?
+      options:
+        - Steam
+        - GOG
+        - Epic
+        - Other (standalone)
+  - type: input
+    id: speeds
+    attributes:
+      label: Speed range tested
+      placeholder: "e.g. 1.5x–4x"
+    validations:
+      required: true
+  - type: dropdown
+    id: audio
+    attributes:
+      label: Audio behavior
+      options:
+        - Natural, no issues
+        - Slight desync at high speed
+        - Heavy desync / crackle (muted it)
+  - type: dropdown
+    id: cutscenes
+    attributes:
+      label: Cutscenes
+      options:
+        - In-engine — speed up fine
+        - Pre-rendered video — desync/not accelerated
+        - Mixed
+  - type: dropdown
+    id: stability
+    attributes:
+      label: Stability
+      options:
+        - No issues in hours of play
+        - Occasional glitches (describe below)
+        - Crashed (describe below)
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes (anything noteworthy)
