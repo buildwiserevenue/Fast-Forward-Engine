@@ -1,0 +1,157 @@
+name: App Compatibility Report (auto-filled)
+description: Filled in by FastForward Engine's own "Share compatibility report" button. Fields are machine-read by the aggregation bot — pick "Compatibility Report" instead if you're writing one by hand.
+title: "Compat report"
+labels: ["compat-report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This form is meant to be opened FROM THE APP (Dashboard -> Share
+        compatibility report), which fills every field below and shows you
+        the exact text before you get here. If you're filling this in by
+        hand, please use the "Compatibility Report" template instead — its
+        free-form questions are much easier for a person to answer; this
+        one exists so the aggregation bot can read reports automatically.
+
+        Offline single-player games only. Titles protected by anti-cheat
+        systems are permanently blocked and are never reported as
+        compatible — please don't file a report for one.
+  - type: input
+    id: game_identity
+    attributes:
+      label: game_identity
+      description: >-
+        The game's identity, exactly as the app names it:
+        steam:<appid>, epic:<CatalogItemId>, gog:<productId>, or
+        exe:<file name.exe> when no store was detected.
+      placeholder: "steam:1091500"
+    validations:
+      required: true
+  - type: input
+    id: game_name
+    attributes:
+      label: game_name
+      description: The game's display name, for humans reading this issue.
+      placeholder: "Cyberpunk 2077"
+    validations:
+      required: true
+  - type: input
+    id: app_version
+    attributes:
+      label: app_version
+      description: The FastForward Engine version you used.
+    validations:
+      required: true
+  - type: dropdown
+    id: status_seen
+    attributes:
+      label: status_seen
+      description: What the app showed for this game when you connected.
+      options:
+        - VERIFIED
+        - PARTIAL
+        - BLOCKED
+        - UNKNOWN
+    validations:
+      required: true
+  - type: input
+    id: factor_min
+    attributes:
+      label: factor_min
+      description: Lowest speed you used this session.
+      placeholder: "1.50"
+    validations:
+      required: true
+  - type: input
+    id: factor_common
+    attributes:
+      label: factor_common
+      description: The speed you used most of the session.
+      placeholder: "2.00"
+    validations:
+      required: true
+  - type: input
+    id: factor_max
+    attributes:
+      label: factor_max
+      description: Highest speed you used this session.
+      placeholder: "3.00"
+    validations:
+      required: true
+  - type: input
+    id: codec_events
+    attributes:
+      label: codec_events
+      description: How many times a pre-rendered cutscene was detected.
+      placeholder: "0"
+    validations:
+      required: true
+  - type: input
+    id: cutscene_speed_applied
+    attributes:
+      label: cutscene_speed_applied
+      description: Speed the app used during cutscenes, or "none".
+      placeholder: "none"
+    validations:
+      required: true
+  - type: dropdown
+    id: audio_policy
+    attributes:
+      label: audio_policy
+      description: Audio fail-safe used while sped up.
+      options:
+        - none
+        - mute
+        - duck
+    validations:
+      required: true
+  - type: dropdown
+    id: session_outcome
+    attributes:
+      label: session_outcome
+      description: How the session ended.
+      options:
+        - clean_unload
+        - crash_or_kill
+    validations:
+      required: true
+  - type: dropdown
+    id: duration_bucket
+    attributes:
+      label: duration_bucket
+      description: Roughly how long you played this session.
+      options:
+        - under_5m
+        - 5_15m
+        - 15_60m
+        - over_60m
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: notes
+      description: >-
+        Anything else worth knowing (optional). The app already removes
+        anything that looks like a file path or a username before this
+        reaches you — please avoid pasting either yourself too.
+    validations:
+      required: false
+  - type: textarea
+    id: diagnostic_tail
+    attributes:
+      label: diagnostic_tail
+      description: >-
+        A short diagnostic excerpt (optional) — only useful if something
+        went wrong. Leave blank for an ordinary compatibility report.
+    validations:
+      required: false
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Before you submit
+      options:
+        - label: This is an offline single-player game.
+          required: true
+        - label: I reviewed the fields above and removed anything personal.
+          required: true

@@ -1,0 +1,61 @@
+name: Aggregate compatibility reports
+
+# Roadmap R4 (community intake) + R24 (scrubbed reporting) of the private
+# FastForward Engine repo. This workflow NEVER touches profiles.json or
+# profiles.json.minisig: it only ever opens (or updates) a pull request
+# under pending/ for a maintainer to review. Only the maintainer's local
+# signing step (scripts/sign_profiles.sh, private repo) can promote or sign
+# a profile — the signing key never exists in this repo or in Actions.
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
+
+jobs:
+  aggregate:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.issue.labels.*.name, 'compat-report')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Ensure a Rust toolchain is available
+        run: rustup toolchain install stable --profile minimal -y
+
+      - name: Fetch every open compatibility report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue list --repo "${{ github.repository }}" --label compat-report \
+            --state open --json number,author,body --limit 500 > issues.json
+
+      - name: Build the aggregator
+        run: cargo build --release --manifest-path bot/Cargo.toml
+
+      - name: Run the aggregator
+        run: |
+          mkdir -p pending
+          ./bot/target/release/ffwd-bot \
+            --issues issues.json \
+            --current-profiles profiles.json \
+            --out-dir pending \
+            --pr-body-out pr_body.md
+
+      - name: Open or update a pull request with any proposals
+        if: hashFiles('pending/*.json') != ''
+        uses: peter-evans/create-pull-request@v8
+        with:
+          add-paths: pending/**
+          commit-message: "bot: compatibility-evidence proposals"
+          title: "Compatibility-evidence proposals"
+          body-path: pr_body.md
+          branch: bot/profile-proposals
+          labels: needs-owner-review
+          delete-branch: true
