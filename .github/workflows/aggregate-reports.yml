@@ -26,8 +26,11 @@ permissions:
 
 jobs:
   aggregate:
+    # A deleted issue's labels do not decide: every run reads the whole
+    # current set, so recounting after any deletion costs one short run.
     if: >-
       github.event_name == 'workflow_dispatch' ||
+      github.event.action == 'deleted' ||
       contains(github.event.issue.labels.*.name, 'compat-report') ||
       github.event.label.name == 'compat-report'
     runs-on: ubuntu-latest
