@@ -1,0 +1,81 @@
+name: Aggregate compatibility reports
+
+# This workflow NEVER touches profiles.json or profiles.json.minisig: it only
+# ever opens, updates or closes a pull request under pending/ for a maintainer
+# to review. Only the maintainer signs the catalogue, and the signing key never
+# exists in this repository or in Actions.
+
+# Every run reads the whole current set of reports, so any change to that set
+# is a reason to run again: a report closed or deleted takes its evidence away.
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, closed, reopened, deleted]
+  workflow_dispatch: {}
+
+# One run at a time, and at most one waiting: a newer event replaces the one
+# waiting, which loses nothing because each run reads everything. Two runs never
+# push to the bot's branch at once.
+concurrency:
+  group: aggregate-reports
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
+
+jobs:
+  aggregate:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.issue.labels.*.name, 'compat-report') ||
+      github.event.label.name == 'compat-report'
+    runs-on: ubuntu-latest
+    steps:
+      # Third-party actions run with write rights here: pinned to a commit, never a
+      # tag that can be moved.
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Ensure a Rust toolchain is available
+        run: rustup toolchain install stable --profile minimal -y
+
+      # Every page, with no ceiling: evidence that falls off a limit is lost in
+      # silence. pipefail makes a failed fetch stop the run instead of handing
+      # the bot an empty list, which would close the pull request.
+      - name: Fetch every open compatibility report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh api --paginate \
+            "repos/${GITHUB_REPOSITORY}/issues?state=open&labels=compat-report&per_page=100" \
+            --jq '.[] | select(.pull_request == null)
+                  | {number, body: (.body // ""),
+                     author: {login: .user.login, is_bot: (.user.type == "Bot")}}' \
+            | jq -s . > issues.json
+          echo "open reports: $(jq length issues.json)"
+
+      - name: Build the aggregator
+        run: cargo build --release --locked --manifest-path bot/Cargo.toml
+
+      - name: Run the aggregator
+        run: |
+          mkdir -p pending
+          ./bot/target/release/report-bot \
+            --issues issues.json \
+            --current-profiles profiles.json \
+            --out-dir pending \
+            --pr-body-out pr_body.md
+
+      # Runs with or without proposals: when none is left, the branch no longer
+      # differs from main and the action closes the pull request and deletes it.
+      - name: Open, update or close the pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8
+        with:
+          add-paths: pending/**
+          commit-message: "bot: compatibility-evidence proposals"
+          title: "Compatibility-evidence proposals"
+          body-path: pr_body.md
+          branch: bot/profile-proposals
+          labels: needs-review
+          delete-branch: true

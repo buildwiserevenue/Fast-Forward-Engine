@@ -1,0 +1,15 @@
+[package]
+name = "report-bot"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "Aggregates open compatibility-report issues into proposals a maintainer reviews; run only by .github/workflows/aggregate-reports.yml."
+
+[dependencies]
+report-form = { path = "../form" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[[bin]]
+name = "report-bot"
+path = "src/main.rs"

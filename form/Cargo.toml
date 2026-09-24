@@ -1,0 +1,13 @@
+# Generated file: it is replaced whole on every update, so a change made here is not kept.
+[package]
+name = "report-form"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "The compatibility report's form, as the aggregation bot reads it."
+
+[features]
+serde = ["dep:serde"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"], optional = true }

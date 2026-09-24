@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="93.999352mm"
+   height="67.417145mm"
+   viewBox="0 0 93.999352 67.417145"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   sodipodi:docname="ffwd_engine_icon(simple).svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="3.2337963"
+     inkscape:cx="199.76521"
+     inkscape:cy="171.47029"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="3829"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <filter
+       id="glowB"
+       x="-0.10105263"
+       y="-0.12387097"
+       width="1.2021053"
+       height="1.2477419">
+      <feGaussianBlur
+         stdDeviation="8"
+         result="blur"
+         id="feGaussianBlur6" />
+      <feComposite
+         in="SourceGraphic"
+         in2="blur"
+         operator="over"
+         id="feComposite6" />
+    </filter>
+    <linearGradient
+       id="cyanB"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0">
+      <stop
+         offset="0%"
+         stop-color="#00f2fe"
+         id="stop3" />
+      <stop
+         offset="100%"
+         stop-color="#4facfe"
+         id="stop4" />
+    </linearGradient>
+    <linearGradient
+       id="redB"
+       x1="413.38541"
+       y1="55.880054"
+       x2="492.12549"
+       y2="55.880054"
+       gradientTransform="scale(0.50800051,1.968502)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         stop-color="#ff0844"
+         id="stop5" />
+      <stop
+         offset="100%"
+         stop-color="#ff4e50"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#cyanB"
+       id="linearGradient3"
+       x1="81.022873"
+       y1="81.458481"
+       x2="195.80528"
+       y2="81.458481"
+       gradientTransform="scale(0.74053163,1.3503812)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#cyanB"
+       id="linearGradient4"
+       x1="182.30145"
+       y1="81.458481"
+       x2="297.08386"
+       y2="81.458481"
+       gradientTransform="scale(0.74053163,1.3503812)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Livello 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-54.056816,-98.962121)">
+    <g
+       filter="url(#glowB)"
+       id="g17"
+       transform="matrix(0.31580925,0,0,0.28065929,51.778619,73.478258)">
+      <polygon
+         points="145,175 145,200 60,265 85,187 60,110 "
+         fill="url(#cyanB)"
+         id="polygon15"
+         style="fill:url(#linearGradient3)" />
+      <polygon
+         points="220,175 220,200 135,265 160,187 135,110 "
+         fill="url(#cyanB)"
+         id="polygon16"
+         style="fill:url(#linearGradient4)" />
+      <polygon
+         points="250,175 250,200 210,265 230,187 210,110 "
+         fill="url(#redB)"
+         id="polygon17"
+         style="fill:url(#redB)" />
+    </g>
+    <text
+       x="60.837646"
+       y="162.03139"
+       font-family="'Segoe UI', Roboto, sans-serif"
+       font-size="11.1125px"
+       font-weight="900"
+       fill="#ffffff"
+       letter-spacing="2"
+       id="text17"
+       style="letter-spacing:0.264583px;fill:#00f2fe;fill-opacity:1;stroke-width:0.264583">FFWD</text>
+    <text
+       x="97.232811"
+       y="162.15318"
+       font-family="'Segoe UI', Roboto, sans-serif"
+       font-size="11.1125px"
+       font-weight="900"
+       fill="#ffffff"
+       letter-spacing="2"
+       id="text17-8"
+       style="letter-spacing:0.264583px;fill:#fe314b;fill-opacity:1;stroke-width:0.264583">ENGINE</text>
+    <text
+       x="53.903854"
+       y="166.32759"
+       font-family="'Segoe UI', Roboto, sans-serif"
+       font-size="4.23333px"
+       font-weight="700"
+       fill="#00f2fe"
+       letter-spacing="2"
+       id="text18"
+       style="letter-spacing:0.264583px;fill:#a0aec0;fill-opacity:1;stroke-width:0.264583">CUTSCENE SPEED &amp; FAST-FORWARD TOOL</text>
+  </g>
+</svg>
