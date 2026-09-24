@@ -90,7 +90,9 @@ body:
     id: cutscene_speed_applied
     attributes:
       label: cutscene_speed_applied
-      description: Speed the app used during cutscenes, or "none".
+      description: >-
+        The speed the app used during pre-rendered cutscenes, "none" when it
+        never changed it, or "unknown" when the session did not record it.
       placeholder: "none"
     validations:
       required: true
@@ -98,11 +100,14 @@ body:
     id: audio_policy
     attributes:
       label: audio_policy
-      description: Audio fail-safe used while sped up.
+      description: >-
+        Audio fail-safe used while sped up, or "unknown" when the session did
+        not record a single one.
       options:
         - none
         - mute
         - duck
+        - unknown
     validations:
       required: true
   - type: dropdown

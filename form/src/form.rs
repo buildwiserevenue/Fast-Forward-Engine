@@ -57,12 +57,15 @@ impl StatusSeen {
     }
 }
 
+/// The audio fail-safe a session ran with, or `Unknown` when no single one
+/// can be stated: the session did not record it, or used more than one.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum AudioPolicySeen {
     None,
     Mute,
     Duck,
+    Unknown,
 }
 
 impl AudioPolicySeen {
@@ -71,16 +74,49 @@ impl AudioPolicySeen {
             Self::None => "none",
             Self::Mute => "mute",
             Self::Duck => "duck",
+            Self::Unknown => "unknown",
         }
     }
 
+    /// An unrecognised word is `Unknown`, never a guess at "none".
     pub fn parse(s: &str) -> Self {
         match s {
+            "none" => Self::None,
             "mute" => Self::Mute,
             "duck" => Self::Duck,
-            _ => Self::None,
+            _ => Self::Unknown,
         }
     }
+}
+
+/// What a session did about pre-rendered cutscenes: the speed the cutscene
+/// rule applied (the highest, when it ran more than once), that it never ran,
+/// or `Unknown` when the session did not record it.
+#[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+pub enum CutsceneSeen {
+    Applied(f64),
+    None,
+    Unknown,
+}
+
+impl CutsceneSeen {
+    /// The field's value: the speed, `none` or `unknown`.
+    pub fn to_field(self) -> String {
+        match self {
+            Self::Applied(speed) => fmt_num(speed),
+            Self::None => "none".into(),
+            Self::Unknown => "unknown".into(),
+        }
+    }
+}
+
+/// A number as the form writes it: two decimals at most, trailing zeros
+/// trimmed (`2.5`, `1.25`, `3`).
+pub fn fmt_num(f: f64) -> String {
+    let s = format!("{f:.2}");
+    let s = s.trim_end_matches('0').trim_end_matches('.');
+    s.to_string()
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -292,6 +328,16 @@ mod tests {
     }
 
     #[test]
+    fn the_cutscene_field_says_a_speed_none_or_unknown() {
+        assert_eq!(CutsceneSeen::Applied(2.5).to_field(), "2.5");
+        assert_eq!(CutsceneSeen::Applied(1.25).to_field(), "1.25");
+        assert_eq!(CutsceneSeen::Applied(3.0).to_field(), "3");
+        assert_eq!(CutsceneSeen::None.to_field(), "none");
+        assert_eq!(CutsceneSeen::Unknown.to_field(), "unknown");
+        assert_eq!(fmt_num(1.999), "2");
+    }
+
+    #[test]
     fn every_word_a_field_holds_is_read_back_as_itself() {
         for s in [
             StatusSeen::Verified,
@@ -305,6 +351,7 @@ mod tests {
             AudioPolicySeen::None,
             AudioPolicySeen::Mute,
             AudioPolicySeen::Duck,
+            AudioPolicySeen::Unknown,
         ] {
             assert_eq!(AudioPolicySeen::parse(a.as_str()), a);
         }
@@ -323,6 +370,11 @@ mod tests {
             StatusSeen::parse("verified"),
             StatusSeen::Unknown,
             "never a guess"
+        );
+        assert_eq!(
+            AudioPolicySeen::parse("duck50"),
+            AudioPolicySeen::Unknown,
+            "never a guess at none"
         );
         assert_eq!(
             SessionOutcome::parse("clean"),
