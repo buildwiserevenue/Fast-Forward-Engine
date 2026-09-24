@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Ensure a Rust toolchain is available
-        run: rustup toolchain install stable --profile minimal -y
+        run: rustup toolchain install stable --profile minimal
 
       # Every page, with no ceiling: evidence that falls off a limit is lost in
       # silence. pipefail makes a failed fetch stop the run instead of handing
